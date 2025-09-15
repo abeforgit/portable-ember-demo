@@ -28,8 +28,13 @@
   },
   "exports": {
     "./tests/*": "./tests/*",
-    "./*": "./app/*"
+    "./*": "./app/*",
+    ".": "./dist/assets/main-UGFtn5Ev.js"
   },
+  "main": "./dist/assets/main-UGFtn5Ev.js",
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@babel/runtime": "^7.28.3",

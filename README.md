@@ -39,3 +39,25 @@ An unhandled exception occurred: Failed to resolve entry for package "ember-vite
 
 
 If we look in the ember app's package.json, we see it does define an `exports` key, but, as the error above states, it does not have an entry for `.`, aka the bare `ember-vite-app` import specifier.
+
+# Step 4: let's build
+
+We can try to import directly from `ember-vite-app/app.ts`, but that doesn't work either, typescript complains about a bunch of modules it can't find, including some "virtual" embroider modules. Let's drop the naive facade for a second and recognize we obviously need to build the app, trying to import the raw sources won't get us anywhere (although, keep an eye on https://github.com/embroider-build/embroider/pull/2549 , buildless ember may be closer than you'd think!).
+
+
+We include the dist folder with the `files` key, and point the package json towards the built files. Let's use both `main` and `exports`, even though `exports` alone should be enough in modern times.
+
+... and immediately, we run into a problem. If we look at the files in dist, we that the only js file in there has a UUID in its name. Now, the uuid does seem stable across rebuilds of the same files, so we can assume it's based on a hash of the files, but I cannot guarantee the hash will look the same on your system. 
+
+If it's not, I invite you to change the ember app's package.json config to the correct files to follow along.
+
+Despite this hash looking weird, this setup actually gets past the angular build step!
+However, we now get a runtime error in the browser console:
+
+```
+Error: 'modulePrefix' is not defined
+```
+
+Ooh that's an ember error! We're making progress!
+
+
