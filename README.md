@@ -29,3 +29,13 @@ We'll first try to naively see if we can import the ember app into angular, in o
 
 Starting the angular app now gives us a type error, indicating that typescript does not yet understand the module.
 
+# Step 3: ignore typescript
+
+Let's reduce complexity and ignore typescript for a second, we'll enable it again later. Running `pnpm start` now gives us a more interesting error:
+
+```
+An unhandled exception occurred: Failed to resolve entry for package "ember-vite-app". The package may have incorrect main/module/exports specified in its package.json: Missing "." specifier in "ember-vite-app" package
+```
+
+
+If we look in the ember app's package.json, we see it does define an `exports` key, but, as the error above states, it does not have an entry for `.`, aka the bare `ember-vite-app` import specifier.
