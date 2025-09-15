@@ -1,0 +1,15 @@
+{
+  "name": "portable-ember-demo",
+  "version": "1.0.0",
+  "description": "A demonstration project to show how to make a vite library mode ember app",
+  "scripts": {
+    "emberapp": "pnpm --filter ember-vite-app",
+    "angularapp": "pnpm --filter angular-app",
+    "build": "pnpm emberapp build && pnpm emberapp pack --out ember-vite-app-latest.tgz",
+    "start": "pnpm angularapp start"
+  },
+  "keywords": [],
+  "author": "abeforgit",
+  "license": "MIT",
+  "packageManager": "pnpm@10.15.1"
+}

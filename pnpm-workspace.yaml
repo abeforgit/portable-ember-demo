@@ -1,0 +1,10 @@
+packages:
+  - ember-vite-app
+  - angular-app
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - core-js
+  - esbuild
+  - lmdb
+  - msgpackr-extract
