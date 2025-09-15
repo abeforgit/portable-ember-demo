@@ -28,6 +28,9 @@ importers:
       '@angular/router':
         specifier: ^20.3.0
         version: 20.3.0(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.0(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
+      ember-vite-app:
+        specifier: file:../ember-vite-app-latest.tgz
+        version: file:ember-vite-app-latest.tgz
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -4102,6 +4105,11 @@ packages:
   ember-tracked-storage-polyfill@1.0.0:
     resolution: {integrity: sha512-eL7lZat68E6P/D7b9UoTB5bB5Oh/0aju0Z7PCMi3aTwhaydRaxloE7TGrTRYU+NdJuyNVZXeGyxFxn2frvd3TA==}
     engines: {node: 12.* || >= 14}
+
+  ember-vite-app@file:ember-vite-app-latest.tgz:
+    resolution: {integrity: sha512-Hh0jVkdS6qLo707OZVd6AWyY4tOLurmSMxN9x2MYcy7pNqFCYOc9NpNjFmURZEWQcWw4z9UYlXpOAWvtU+BQyw==, tarball: file:ember-vite-app-latest.tgz}
+    version: 0.0.0
+    engines: {node: '>= 18'}
 
   ember-welcome-page@7.0.2:
     resolution: {integrity: sha512-TyaKxFIRXhODW5BTbqD/by0Gu8Z9B9AA1ki3Bzzm6fOj2b30Qlprtt+XUG52kS0zVNmxYj/WWoT0TsKiU61VOw==}
@@ -12797,6 +12805,8 @@ snapshots:
       ember-cli-htmlbars: 5.7.2
     transitivePeerDependencies:
       - supports-color
+
+  ember-vite-app@file:ember-vite-app-latest.tgz: {}
 
   ember-welcome-page@7.0.2:
     dependencies:

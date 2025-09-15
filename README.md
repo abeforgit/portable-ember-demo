@@ -17,3 +17,15 @@ At some stages, this will intentionally crash or not work properly, in order to 
 # Step 1: The beginning
 
 We start with the initial setup: both apps are cleanly generated from their respective CLIs. Run `pnpm install`, followed by `pnpm start` to make sure everything works correctly. The default angular app should start.
+
+# Step 2: naive dependency
+
+We'll first try to naively see if we can import the ember app into angular, in order to understand what library mode is doing for us.
+
+- we add a dependency on the ember project in the angular app
+- we try to import something
+
+(Note the build command is now modified to also install the tarball in the angular project. If you haven't ran `pnpm install` at this point, it may fail since it won't find the tarball which the angular project now depends on. Simply run `pnpm emberapp install` first, then `pnpm build`, after which you should be able to run `pnpm install` in the root.)
+
+Starting the angular app now gives us a type error, indicating that typescript does not yet understand the module.
+

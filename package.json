@@ -5,7 +5,7 @@
   "scripts": {
     "emberapp": "pnpm --filter ember-vite-app",
     "angularapp": "pnpm --filter angular-app",
-    "build": "pnpm emberapp build && pnpm emberapp pack --out ember-vite-app-latest.tgz",
+    "build": "pnpm emberapp build && pnpm emberapp pack --out ember-vite-app-latest.tgz && pnpm angularapp add ../ember-vite-app-latest.tgz",
     "start": "pnpm angularapp start"
   },
   "keywords": [],
