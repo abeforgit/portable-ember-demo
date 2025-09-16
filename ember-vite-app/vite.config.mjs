@@ -13,6 +13,9 @@ export default defineConfig({
       name: 'ember-vite-app',
       fileName: 'ember-vite-app',
     },
+    rollupOptions: {
+      input: 'app/main.ts',
+    }
   },
   plugins: [
     classicEmberSupport(),

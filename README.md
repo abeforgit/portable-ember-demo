@@ -174,3 +174,16 @@ We get a rather useless `TypeError: (void 0) is not a function` error in the bro
         ╵          ~~~~~~~~
 
 ```
+
+# Step 9: the last gotcha
+
+I admit I don't fully understand why this is necessary, but it turns out our vite config is not _quite_ enough. We also have to explicitly tell rollup about our entrypoint. That's easily done, we just need to add the following lines to the build config:
+
+```
+    rollupOptions: {
+      input: 'app/main.ts',
+    }
+```
+
+Hurray! We can see that angular can now decide when and where to render the ember app!
+
