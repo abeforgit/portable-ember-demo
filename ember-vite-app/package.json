@@ -29,9 +29,9 @@
   "exports": {
     "./tests/*": "./tests/*",
     "./*": "./app/*",
-    ".": "./dist/assets/main-SDxeoHAU.js"
+    ".": "./dist/assets/main-DuY8KjxI.js"
   },
-  "main": "./dist/assets/main-SDxeoHAU.js",
+  "main": "./dist/assets/main-DuY8KjxI.js",
   "files": [
     "dist"
   ],

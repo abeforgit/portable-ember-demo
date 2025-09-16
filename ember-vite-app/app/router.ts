@@ -2,7 +2,7 @@ import EmberRouter from '@embroider/router';
 import config from 'ember-vite-app/config/environment';
 
 export default class Router extends EmberRouter {
-  location = config.locationType;
+  location = 'none';
   rootURL = config.rootURL;
 }
 

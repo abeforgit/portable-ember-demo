@@ -13,6 +13,7 @@ const modulePrefix = 'ember-vite-app';
 export default class App extends Application {
   modulePrefix = modulePrefix
   podModulePrefix = modulePrefix
+  locationType = 'none'
   Resolver = Resolver.withModules(compatModules);
 }
 

@@ -103,3 +103,26 @@ Now we get a different error:
 ```
 TypeError: can't access property "onUpdateURL", e2 is undefined
 ```
+
+# Step 6: disabling routing
+
+If we check the stacktrace, we see the error refers to the router. If we think about it, it kinda makes sense that this doesn't work out of the box. A "normal" ember app assumes it has full control over the page, 
+including full usage of the "location" api. But now we're running inside angular, which _also_ makes that assumption. It's not immediately clear how routing _should_ even behave in a nested app. There might be more clever ways to make the 
+host routing cooperate with ember's routing, but the simplest solution is simply to disable the `location` integration. This disconnects ember's router from the page's uri, which is in most cases what you'd want. You can always let the host 
+pass in the current route as an argument (see later when we customize the way we let the host app boot the ember app).
+
+To do this, we need to set the locationType to `none`. Because we lost the connection to `environment.js`, we have to do this directly in `app.ts` and in `router.ts`.
+
+Rebuild... and... hurray! The ember app booted!
+![](./images/first-render.png)
+
+
+That... was fast! Let's recap what we had to do to get here:
+
+- we modified the package.json to point to the built files
+- we hardcoded the modulePrefix
+- we disconnected ember's router from the page's `location`
+
+We didn't change anything about the build config! If you've tried this before the embroider/vite days, you know that it's far from obvious that this works. It's thanks to the huge effort by the embroider team, and the browser support of es-modules, that this is possible.
+
+
