@@ -29,9 +29,9 @@
   "exports": {
     "./tests/*": "./tests/*",
     "./*": "./app/*",
-    ".": "./dist/assets/main-UGFtn5Ev.js"
+    ".": "./dist/assets/main-SDxeoHAU.js"
   },
-  "main": "./dist/assets/main-UGFtn5Ev.js",
+  "main": "./dist/assets/main-SDxeoHAU.js",
   "files": [
     "dist"
   ],

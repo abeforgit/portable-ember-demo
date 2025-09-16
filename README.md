@@ -60,4 +60,46 @@ Error: 'modulePrefix' is not defined
 
 Ooh that's an ember error! We're making progress!
 
+# Step 5: fixing modulePrefix
 
+If we grep our source code, we see that modulePrefix is set on the `App` class in `app.ts`:
+
+
+```ts
+// other imports omitted
+import config from 'ember-vite-app/config/environment';
+
+if (macroCondition(isDevelopingApp())) {
+  importSync('./deprecation-workflow');
+}
+
+export default class App extends Application {
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver.withModules(compatModules);
+}
+```
+
+And we also find its definition in `environment.js`:
+
+```js
+
+'use strict';
+
+module.exports = function (environment) {
+  const ENV = {
+    modulePrefix: 'ember-vite-app',
+    environment,
+    rootURL: '/',
+    locationType: 'history',
+    // etc...
+
+```
+
+So there seems to be something broken with that import. However, it's really just a string value, so let's just repeat that string in `app.ts`
+
+Now we get a different error: 
+
+```
+TypeError: can't access property "onUpdateURL", e2 is undefined
+```
