@@ -4107,7 +4107,7 @@ packages:
     engines: {node: 12.* || >= 14}
 
   ember-vite-app@file:ember-vite-app-latest.tgz:
-    resolution: {integrity: sha512-3KSQWrElFH+J3nmE9KPP3mjZIdkyFsvG7rZkivzah3l52hdTaj7Xyt0v2VXSgPBlB+smwH/ltC9anjWqBIwNNw==, tarball: file:ember-vite-app-latest.tgz}
+    resolution: {integrity: sha512-uVfzNKsovdPtJ9+jimPvkn8Jnmt3ZsfTlh+My4VnQ1I1W3dPVuafDCHd+HCvLkALGUQDK/DfOUT14KdGGtgZmg==, tarball: file:ember-vite-app-latest.tgz}
     version: 0.0.0
     engines: {node: '>= 18'}
 

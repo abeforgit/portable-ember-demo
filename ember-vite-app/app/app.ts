@@ -11,9 +11,10 @@ if (macroCondition(isDevelopingApp())) {
 const modulePrefix = 'ember-vite-app';
 
 export default class App extends Application {
-  modulePrefix = modulePrefix
-  podModulePrefix = modulePrefix
-  locationType = 'none'
+  modulePrefix = modulePrefix;
+  podModulePrefix = modulePrefix;
+  locationType = 'none';
+  autoboot = false;
   Resolver = Resolver.withModules(compatModules);
 }
 

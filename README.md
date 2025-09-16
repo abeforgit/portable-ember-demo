@@ -147,5 +147,30 @@ We then adjust the package.json one last time. Vite now gives us 2 files by defa
 
 Rebuild, and... well it still works, but the ember-app is still booting automatically. Let's fix this next.
 
+# Step 8: letting the host decide when to boot the app
 
 
+The fact the app automatically boots is another result of the way ember assumes it has control over the entire page. In that situation, there's not much point to _not_ starting the app, so the autoboot default makes sense. 
+Luckily, it's easy to turn it off.
+
+While we're at it, let's also slightly improve the interface for our library. We'd like the consuming app to be able to decide when an where to render the ember app. Additionally, we don't want the consumer to have to learn any ember-specific methods
+or conventions. So let's wrap up the whole boot process in a simple function we can export.
+
+For clarity, I've implemented this in a separate file, called `main.ts`. This way, we can cleanly separate the wrapping logic with the rest of the app's logic. We just have to adjust the entrypoint to point to this new file.
+
+And lastly, we update the angular app to "properly" instantiate our app, letting it provide us a dom element to render in.
+
+Build... and... hey it broke!
+
+
+We get a rather useless `TypeError: (void 0) is not a function` error in the browser console, but in our terminal we get a more useful warning:
+
+```
+▲ [WARNING] Import "startApp" will always be undefined because the file "../node_modules/.pnpm/ember-vite-app@file+ember-vite-app-latest.tgz/node_modules/ember-vite-app/dist/ember-vite-app.mjs" has no exports 
+[import-is-undefined]
+
+    src/app/app.ts:4:9:
+      4 │ import { startApp } from 'ember-vite-app';
+        ╵          ~~~~~~~~
+
+```
