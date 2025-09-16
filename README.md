@@ -125,4 +125,27 @@ That... was fast! Let's recap what we had to do to get here:
 
 We didn't change anything about the build config! If you've tried this before the embroider/vite days, you know that it's far from obvious that this works. It's thanks to the huge effort by the embroider team, and the browser support of es-modules, that this is possible.
 
+# Step 7: making it a library
+
+Of course, this is no way to ship a library. The host app imports some side-effecting file, and the app just renders somewhere on the page! That won't do. Not to mention the fact that I've had to adjust the `package.json` config for every build, since the filenames change every time, and it's getting old.
+
+Let's list what we need the build system to do for us:
+
+- make the built files have stable filenames so we don't have to keep updating our package.json
+- make sure anything we export is also exported from the built file
+
+That's not asking much, so any build system will be able to do this. It just so happens vite was selected to receive first-class support from the ember team, and with good reason. Vite takes care of a lot of otherwise confusing configuration for 
+bundlers like Rollup and esbuild, and presents a developer-friendly and consistent configuration interface, as well as a unique dev-server. But it's important to remember that that's really all it's doing.
+
+
+Here's the docs for vite's library mode: https://vite.dev/guide/build.html#library-mode
+
+So let's apply this!
+
+We tell vite to use library mode, and point it directly to `app.ts` as the entrypoint. This will ensure it ignores the `index.html` and just builds the code without wrapping it in a side-effecting module.
+We then adjust the package.json one last time. Vite now gives us 2 files by default: an es-module version and a UMD version. This is fantastic, as it ensures compatibility with systems that don't understand es-modules (though, luckily, there's less and less of those around)
+
+Rebuild, and... well it still works, but the ember-app is still booting automatically. Let's fix this next.
+
+
 
