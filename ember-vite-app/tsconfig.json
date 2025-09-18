@@ -11,6 +11,11 @@
       "ember-vite-app/*": ["./app/*"],
       "*": ["./types/*"]
     },
+
+    "declaration": true,
+    "declarationDir": "./dist-types",
+    "emitDeclarationOnly": true,
+    "noEmit": false,
     "types": ["ember-source/types", "@embroider/core/virtual", "vite/client"]
   }
 }

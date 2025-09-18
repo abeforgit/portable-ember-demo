@@ -11,7 +11,9 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "concurrently \"pnpm:build:*\" --names \"build:\" --prefixColors auto",
+    "build:js": "vite build",
+    "build:types": "glint --declaration",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:css": "stylelint \"**/*.css\"",
@@ -28,15 +30,21 @@
   },
   "exports": {
     "./tests/*": "./tests/*",
-    "./*": "./app/*",
+    "./*": {
+      "types": "./dist-types/app/*.d.ts",
+      "default": "./app/*"
+    },
     ".": {
+      "types": "./dist-types/app/main.d.ts",
       "import": "./dist/ember-vite-app.mjs",
       "require": "./dist/ember-vite-app.umd.js"
-    }
+    },
+    "./styles.css": "./dist/ember-vite-app.css"
   },
   "main": "./dist/ember-vite-app.umd.js",
   "files": [
-    "dist"
+    "dist",
+    "dist-types"
   ],
   "devDependencies": {
     "@babel/core": "^7.28.3",

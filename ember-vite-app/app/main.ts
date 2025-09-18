@@ -1,5 +1,7 @@
 import App from './app.ts';
 
+type SimpleElement = Parameters<App['visit']>[1]['rootElement'];
+
 export async function startApp(element: HTMLElement) {
   const app = App.create({
     autoboot: false,
@@ -8,7 +10,7 @@ export async function startApp(element: HTMLElement) {
   });
 
   await app.visit('/', {
-    rootElement: element,
+    rootElement: element as unknown as SimpleElement,
     location: 'none',
   });
 }

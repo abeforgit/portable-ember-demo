@@ -1,6 +1,5 @@
 import { Component, signal, ElementRef, afterRenderEffect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-// @ts-expect-error we'll figure out types later
 import { startApp } from 'ember-vite-app';
 
 @Component({

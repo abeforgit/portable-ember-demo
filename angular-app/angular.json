@@ -31,7 +31,8 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "ember-vite-app/styles.css"
             ]
           },
           "configurations": {

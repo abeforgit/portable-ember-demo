@@ -187,3 +187,123 @@ I admit I don't fully understand why this is necessary, but it turns out our vit
 
 Hurray! We can see that angular can now decide when and where to render the ember app!
 
+# Step 10: styles and types
+
+Let's finish off the last loose ends: styles and types. You may have spotted that vite already bundles our css for us, into a nice `ember-vite-app.css` bundle. All we have to do to make this bundle available to other apps, is to export it in the package.json.
+Important to note here is that you're in full control of how you want to "route" the imports of the consuming app. The way I chose here is just arbitrary, all you need it for the importing app to have a way to get to the right file.
+
+
+Now, you may be surprised about the change on the angular side - I am too. Now that we're used to vite handling everything through imports, having to adjust some framework-specific config file seems... outdated?
+Full disclosure, I don't actually know much about Angular, there might be a better way, but I at least could not find it.
+
+Regardless, you can still see the effect of the "exports" routing we added in the package.json. We can refer to `/styles.css", and it will find the correct file.
+
+Hurray! Styles!
+
+![](./images/styled.png)
+
+Let's do types next, so we can finally get rid of that ugly `ts-expect-error`. The reason we're not getting any types has, again, actually nothing to do with vite. We... are just not actually making them!
+
+So, let's add a build script that will make the types for us to the `package.json`, and make the plain `build` command run both builders concurrently:
+
+```json
+    "build": "concurrently \"pnpm:build:*\" --names \"build:\" --prefixColors auto",
+    "build:js": "vite build",
+    "build:types": "glint --declaration",
+```
+
+We use glint for the types, cause it can handle all the ember-specific syntax and typing needs.
+
+We'll also need to adjust the `tsconfig`, as it's still set up for app usage without emitting types. 
+
+We see that the tsconfig extends from `@ember/app-tsconfig`. There's various approaches: you could look into what that does, and construct your own tsconfig from scratch, or you can just override the relevant keys, which is what we'll do here, but I highly recommend learning about what all the options do.
+
+```json
+    "declaration": true,
+    "declarationDir": "./dist-types",
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+```
+
+So we tell glint to emit (= compile) files, but only as declarations, since vite already takes care of the rest. Once again, the declarationDir I chose is arbitrary, and you could easily use a subfolder of `dist` or something. I just like to see them side-by-side, makes it easy to see where things are.
+
+Oops, type errors appear! Turns out I never actually typechecked the ember app until this point...
+
+Lets fix them:
+
+The first one already tells us what to do:
+
+```shellsession
+[build:types] app/templates/application.gts:4:1 - error TS2742: The inferred type of 'default' cannot be named without a reference to '.pnpm/@glint+template@1.5.2/node_modules/@glint/template/-private/integration'. This is likely not portable. A type annotation is necessary.
+[build:types]
+[build:types]   4 <template>
+[build:types]     ~~~~~~~~~~
+[build:types]   5   {{pageTitle "EmberViteApp"}}
+[build:types]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[build:types] ...
+[build:types]  12 </template>
+[build:types]     ~~~~~~~~~~~
+[build:types]  13
+```
+
+We need to add an explicit type annotation. I use `TOC` here, even though this is technically a route... I'm not sure exactly how to type these routes yet.
+
+The next one is a bit of a lame one:
+
+```shellsession
+[build:types] app/main.ts:11:5 - error TS2322: Type 'HTMLElement' is not assignable to type 'string | SimpleElement | null | undefined'.
+[build:types]   Type 'HTMLElement' is not assignable to type 'SimpleElement'.
+[build:types]     Types of property 'nodeValue' are incompatible.
+[build:types]       Type 'string | null' is not assignable to type 'null'.
+[build:types]         Type 'string' is not assignable to type 'null'.
+[build:types]
+[build:types] 11     rootElement: element,
+[build:types]        ~~~~~~~~~~~
+[build:types]
+[build:types]   ../node_modules/.pnpm/ember-source@6.7.0_@glimmer+component@2.0.0_rsvp@4.8.5/node_modules/ember-source/types/stable/@ember/engine/instance.d.ts:20:9
+[build:types]     20         rootElement?: string | SimpleElement | null;
+[build:types]                ~~~~~~~~~~~
+[build:types]     The expected type comes from property 'rootElement' which is declared here on type 'BootOptions'
+[build:types]
+```
+
+We pass an html element to the app, and instead it expects either a queryString or a "SimpleElement", which is some internal Ember type that has way less properties than a real DOM element. Annoyingly, the types are not compatible, but this might be a case where a cast is justified... but of course I'll accept better suggestions!
+
+SimpleElement is not a public type, but with a little trickery, we can easily get at it:
+
+`type SimpleElement = Parameters<App['visit']>[1]['rootElement'];`
+
+
+
+Now that we build the type declarations, lets make sure consuming apps can actually find them as well. To the `package.json` once again!
+
+
+We make sure to include the types now:
+```json
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+```
+
+and then point the exports to the right spots:
+
+```json
+
+  "exports": {
+    "./tests/*": "./tests/*",
+    "./*": {
+      "types": "./dist-types/app/*.d.ts",
+      "default": "./app/*"
+    },
+    ".": {
+      "types": "./dist-types/app/main.d.ts",
+      "import": "./dist/ember-vite-app.mjs",
+      "require": "./dist/ember-vite-app.umd.js"
+    },
+    "./styles.css": "./dist/ember-vite-app.css"
+  },
+```
+
+And hurray! Types!
+
